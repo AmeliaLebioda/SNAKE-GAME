@@ -1,1 +1,1 @@
-py -m pygame.examples.aliens
+python3 -m pygame.examples.aliens 
