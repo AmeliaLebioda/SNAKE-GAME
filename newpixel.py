@@ -1,10 +1,12 @@
 import pygame
+import random
 
 pygame.init()
 
 white = (255,255,255)
 black = (0,0,0)
 red = (255,0,0)
+green = (0,155,0)
 
 display_width = 800
 display_height = 600
@@ -23,11 +25,16 @@ def message_to_screen(msg,color):
     screen_text = font.render(msg, True, color)
     gameDisplay.blit(screen_text, [display_width/2,display_height/2])
 
-
+def snake(block_size, snakelist):
+    for XnY in snakelist:
+     pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
 
 def gameLoop():
     gameExit = False
     gameOver = False
+
+    snakeList =[]
+    snakeLenght=1
     
 
     lead_x = display_width/2
@@ -35,10 +42,13 @@ def gameLoop():
     
     lead_x_change = 0
     lead_y_change = 0
+
+    randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
+    randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
     
     while not gameExit:
         
-        while game0ver == True:
+        while gameOver == True:
             gameDisplay.fill(white)
             message_to_screen("The game is over, press C to play again or Q to quit",red)
             pygame.display.update()
@@ -75,14 +85,37 @@ def gameLoop():
         lead_x +=  lead_x_change
         lead_y +=  lead_y_change
         gameDisplay.fill(white)
-        pygame.draw.rect(gameDisplay, black, [lead_x,lead_y,block_size,block_size])
+        
+        snakeHead=[]
+        snakeHead.append(lead_x)
+        snakeHead.append(lead_y)
+        snakeList.append(snakeHead)
+        if len(snakeList) > snakeLenght:
+            del snakeList[0]
+
+        for eachSegment in snakeList [:-1]:
+            if eachSegment == snakeHead:
+                gameOver=True
+             
+        
+
+        
+        snake(block_size,snakeList)
+        pygame.draw.rect(gameDisplay, red, [randAppleX,randAppleY,block_size,block_size])
         pygame.display.update()
+
+        if lead_x==randAppleX and lead_y==randAppleY:
+           randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
+           randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
+           snakeLenght += 1
         
         clock.tick(FPS)
 
 
     pygame.quit()
     quit()
+
+gameLoop()
 
 gameLoop()
 
