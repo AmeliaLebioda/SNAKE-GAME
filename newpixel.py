@@ -24,9 +24,9 @@ def text_objects(text, color):
     textSurface=font.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
-def message_to_screen(msg,color):
+def message_to_screen(msg,color, y_displace=0):
     textSurf, textRect = text_objects(msg, color)
-    textRect.center = (display_width/2,display_height/2)
+    textRect.center = (display_width/2),(display_height/2)+ y_displace
     gameDisplay.blit(textSurf, textRect)
     ##screen_text = font.render(msg, True, color)
     ##gameDisplay.blit(screen_text, [display_width/2,display_height/2])
@@ -35,6 +35,32 @@ def snake(block_size, snakelist):
     for XnY in snakelist:
      pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
 
+def start_menu():
+    intro =True
+    while intro:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                    
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+                if event.key == pygame.K_c:
+                    intro = False
+
+        
+
+    
+        gameDisplay.fill(green)
+        message_to_screen("Welcome" , red, -20)
+        message_to_screen("Press C to play or Q to quit", black, 0)
+        pygame.display.update()
+        clock.tick(20)
+
+         
 def gameLoop():
     gameExit = False
     gameOver = False
@@ -56,7 +82,8 @@ def gameLoop():
         
         while gameOver == True:
             gameDisplay.fill(white)
-            message_to_screen("The game is over, press C to play again or Q to quit",red)
+            message_to_screen("The game is over",red, -20)
+            message_to_screen("Press C to play again or Q to quit",black, 20)
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -96,7 +123,7 @@ def gameLoop():
         lead_y +=  lead_y_change
         gameDisplay.fill(white)
         
-        AppleThickness =30
+        AppleThickness =15
  
         pygame.draw.rect(gameDisplay, red, [randAppleX,randAppleY,AppleThickness,AppleThickness])
         
@@ -129,9 +156,8 @@ def gameLoop():
 
     pygame.quit()
     quit()
-
+start_menu()
 gameLoop()
 
-gameLoop()
 
 
