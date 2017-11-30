@@ -19,7 +19,7 @@ clock = pygame.time.Clock()
 block_size=10
 FPS =30
 
-smallfont = pygame.font.SysFont("Helvetica", 25)
+smallfont = pygame.font.SysFont("comicsansms", 20)
 medfont = pygame.font.SysFont("comicsansms", 50)
 largefont = pygame.font.SysFont("comicsansms", 70)
 
@@ -44,6 +44,7 @@ def snake(block_size, snakelist):
 
 def start_menu():
     intro =True
+    
     while intro:
 
         for event in pygame.event.get():
@@ -61,11 +62,16 @@ def start_menu():
         
 
     
-        gameDisplay.fill(green)
-        message_to_screen("Welcome" , red, -20)
-        message_to_screen("Press C to play or Q to quit", black, 0)
+        gameDisplay.fill(white)
+        message_to_screen("Welcome to Slither" , red, -100,"large")
+        message_to_screen("The rules and functionalities are:", black, -20, "small" )
+        message_to_screen ( "The snake can move in four directions.",black, 10, "small")
+        message_to_screen("When the snake eats food its tail becomes longer." , black, 30, "small")
+        message_to_screen("Food appears in random places.", black, 50, "small")
+        message_to_screen("The game is over when the snake bites itself." ,black, 70, "small"  )
+        message_to_screen("Press C to play or Q to quit", black, 150,"small")
         pygame.display.update()
-        clock.tick(20)
+        clock.tick(10)
 
          
 def gameLoop():
@@ -89,8 +95,8 @@ def gameLoop():
         
         while gameOver == True:
             gameDisplay.fill(white)
-            message_to_screen("The game is over",red, -20, size ="med")
-            message_to_screen("Press C to play again or Q to quit",black, 30, size = "small")
+            message_to_screen("The game is over",red, -100, size ="large")
+            message_to_screen("Press C to play again or Q to quit",black, 50, size = "small")
             pygame.display.update()
 
             for event in pygame.event.get():
