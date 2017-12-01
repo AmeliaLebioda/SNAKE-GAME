@@ -14,6 +14,8 @@ display_height = 600
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Slither')
 
+appleimage=pygame.image.load('apple2.png')
+
 clock = pygame.time.Clock()
 
 block_size=10
@@ -136,10 +138,10 @@ def gameLoop():
         lead_y +=  lead_y_change
         gameDisplay.fill(white)
         
-        AppleThickness =15
+        AppleThickness =20
  
-        pygame.draw.rect(gameDisplay, red, [randAppleX,randAppleY,AppleThickness,AppleThickness])
-        
+        #pygame.draw.rect(gameDisplay, red, [randAppleX,randAppleY,AppleThickness,AppleThickness])
+        gameDisplay.blit(appleimage, (randAppleX,randAppleY))
         snakeHead=[]
         snakeHead.append(lead_x)
         snakeHead.append(lead_y)
