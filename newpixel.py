@@ -13,14 +13,16 @@ display_height = 600
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Slither')
-
+snakeheadimage=pygame.image.load('snakehead.png')
 appleimage=pygame.image.load('apple2.png')
+segment = pygame.image.load('segment.png')
+tail = pygame.image.load('tail.png')
 
 clock = pygame.time.Clock()
 
-block_size=10
-FPS =30
-
+block_size= 25
+FPS =15
+direction =  "right"
 smallfont = pygame.font.SysFont("comicsansms", 20)
 medfont = pygame.font.SysFont("comicsansms", 50)
 largefont = pygame.font.SysFont("comicsansms", 70)
@@ -41,9 +43,59 @@ def message_to_screen(msg,color, y_displace=0, size = "small"):
 
 
 def snake(block_size, snakelist):
-    for XnY in snakelist:
-     pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
+    if direction =="right":
+        head = pygame.transform.rotate(snakeheadimage, 270)
 
+    if direction =="left":
+        head = pygame.transform.rotate(snakeheadimage, 90)
+    
+    if direction =="up":
+        head = snakeheadimage
+
+    if direction =="down":
+        head = pygame.transform.rotate(snakeheadimage, 180)
+    
+    gameDisplay.blit(head, (snakelist [-1] [0], snakelist [-1][1]))
+
+
+
+    if direction =="right":
+        part = pygame.transform.rotate(segment, 270)
+
+    if direction =="left":
+        part = pygame.transform.rotate(segment, 90)
+    
+    if direction =="up":
+        part = segment
+
+    if direction =="down":
+        part = pygame.transform.rotate(segment, 180)
+
+
+
+    if direction =="right":
+        endofsnake= pygame.transform.rotate(tail, 270)
+
+    if direction =="left":
+        endofsnake = pygame.transform.rotate(tail, 90)
+    
+    if direction =="up":
+        endofsnake = tail
+
+    if direction =="down":
+        endofsnake= pygame.transform.rotate(tail, 180)
+    
+        
+    for XnY in snakelist[1:-1]:
+        gameDisplay.blit(part, (XnY[0],XnY[1]))
+        
+   
+    gameDisplay.blit(endofsnake, (snakelist [0] [0], snakelist [0][1]))
+    #pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
+
+  
+    
+    
 def start_menu():
     intro =True
     
@@ -77,17 +129,22 @@ def start_menu():
 
          
 def gameLoop():
+    global direction
     gameExit = False
     gameOver = False
 
     snakeList =[]
-    snakeLenght=1
+    snakeLenght=2
+    
     
 
     lead_x = display_width/2
     lead_y = display_height/2
+
+ 
     
-    lead_x_change = 0
+    
+    lead_x_change = 10
     lead_y_change = 0
 
     randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
@@ -120,15 +177,19 @@ def gameLoop():
                 gameExit = True
             if event.type == pygame.KEYDOWN:  
                 if event.key == pygame.K_LEFT:
+                    direction = "left"
                     lead_x_change = -block_size
                     lead_y_change = 0
                 elif event.key == pygame.K_RIGHT:
+                    direction = "right"
                     lead_x_change = block_size
                     lead_y_change = 0
                 elif event.key == pygame.K_UP:
+                    direction = "up"
                     lead_y_change = -block_size
                     lead_x_change = 0
                 elif event.key == pygame.K_DOWN:
+                    direction = "down"
                     lead_y_change = block_size
                     lead_x_change = 0
         if lead_x>display_width or lead_x<0 or lead_y>display_height or lead_y<0:
@@ -145,7 +206,10 @@ def gameLoop():
         snakeHead=[]
         snakeHead.append(lead_x)
         snakeHead.append(lead_y)
+       
         snakeList.append(snakeHead)
+        
+        
         if len(snakeList) > snakeLenght:
             del snakeList[0]
 
@@ -165,6 +229,7 @@ def gameLoop():
                randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
                randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
                snakeLenght += 1
+               
         
         clock.tick(FPS)
 
