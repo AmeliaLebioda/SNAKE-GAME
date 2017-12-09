@@ -21,11 +21,16 @@ tail = pygame.image.load('tail.png')
 clock = pygame.time.Clock()
 
 block_size= 25
-FPS =15
+FPS =10
 direction =  "right"
 smallfont = pygame.font.SysFont("comicsansms", 20)
 medfont = pygame.font.SysFont("comicsansms", 50)
 largefont = pygame.font.SysFont("comicsansms", 70)
+
+
+def score (score):
+    text = smallfont.render ("Score: " +str (score), True, black)
+    gameDisplay.blit(text,  [0,0])
 
 def text_objects(text, color, size):
     if size == "small":
@@ -43,6 +48,7 @@ def message_to_screen(msg,color, y_displace=0, size = "small"):
 
 
 def snake(block_size, snakelist):
+    
     if direction =="right":
         head = pygame.transform.rotate(snakeheadimage, 270)
 
@@ -92,6 +98,7 @@ def snake(block_size, snakelist):
    
     gameDisplay.blit(endofsnake, (snakelist [0] [0], snakelist [0][1]))
     #pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
+    
 
   
     
@@ -134,7 +141,7 @@ def gameLoop():
     gameOver = False
 
     snakeList =[]
-    snakeLenght=2
+    snakeLenght=3
     
     
 
@@ -168,6 +175,7 @@ def gameLoop():
                         gameExit = True
                         gameOver = False
                     if event.key == pygame.K_c:
+                        direction = "right"
                         gameLoop()
             
                 
@@ -204,10 +212,18 @@ def gameLoop():
         #pygame.draw.rect(gameDisplay, red, [randAppleX,randAppleY,AppleThickness,AppleThickness])
         gameDisplay.blit(appleimage, (randAppleX,randAppleY))
         snakeHead=[]
+        #snakeTail = []
+    
         snakeHead.append(lead_x)
         snakeHead.append(lead_y)
-       
+        #snakeTail.append(lead_x - block_size)
+        #snakeTail.append(lead_y - block_size)
+        
+        #snakeList.append(snakeTail)
         snakeList.append(snakeHead)
+        print (len(snakeList))
+        print (snakeList)
+        
         
         
         if len(snakeList) > snakeLenght:
@@ -221,7 +237,7 @@ def gameLoop():
 
         
         snake(block_size,snakeList)
-        
+        score(snakeLenght - 1)
         pygame.display.update()
 
         if lead_x>=randAppleX and lead_x<=randAppleX+ AppleThickness:
