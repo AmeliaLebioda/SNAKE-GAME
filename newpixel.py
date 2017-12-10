@@ -49,6 +49,8 @@ def message_to_screen(msg,color, y_displace=0, size = "small"):
 
 def snake(block_size, snakelist):
     
+    
+    
     if direction =="right":
         head = pygame.transform.rotate(snakeheadimage, 270)
 
@@ -61,8 +63,8 @@ def snake(block_size, snakelist):
     if direction =="down":
         head = pygame.transform.rotate(snakeheadimage, 180)
     
+    
     gameDisplay.blit(head, (snakelist [-1] [0], snakelist [-1][1]))
-
 
 
     if direction =="right":
@@ -91,7 +93,7 @@ def snake(block_size, snakelist):
     if direction =="down":
         endofsnake= pygame.transform.rotate(tail, 180)
     
-        
+      
     for XnY in snakelist[1:-1]:
         gameDisplay.blit(part, (XnY[0],XnY[1]))
         
@@ -141,7 +143,7 @@ def gameLoop():
     gameOver = False
 
     snakeList =[]
-    snakeLenght=3
+    snakeLenght=2
     
     
 
@@ -151,7 +153,7 @@ def gameLoop():
  
     
     
-    lead_x_change = 10
+    lead_x_change = block_size
     lead_y_change = 0
 
     randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
@@ -200,7 +202,7 @@ def gameLoop():
                     direction = "down"
                     lead_y_change = block_size
                     lead_x_change = 0
-        if lead_x>display_width or lead_x<0 or lead_y>display_height or lead_y<0:
+        if lead_x>=display_width or lead_x<0 or lead_y>=display_height or lead_y<0:
            gameOver = True
                 
         lead_x +=  lead_x_change
@@ -222,7 +224,8 @@ def gameLoop():
         #snakeList.append(snakeTail)
         snakeList.append(snakeHead)
         print (len(snakeList))
-        print (snakeList)
+       
+      
         
         
         
@@ -237,11 +240,11 @@ def gameLoop():
 
         
         snake(block_size,snakeList)
-        score(snakeLenght - 1)
+        score(snakeLenght - 2)
         pygame.display.update()
 
-        if lead_x>=randAppleX and lead_x<=randAppleX+ AppleThickness:
-            if lead_y>=randAppleY and lead_y<=randAppleY+AppleThickness:
+        if lead_x>=randAppleX-AppleThickness and lead_x<=randAppleX+ AppleThickness:
+            if lead_y>=randAppleY - AppleThickness and lead_y<=randAppleY+AppleThickness:
                randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
                randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
                snakeLenght += 1
@@ -254,6 +257,3 @@ def gameLoop():
     quit()
 start_menu()
 gameLoop()
-
-
-
