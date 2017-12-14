@@ -21,7 +21,7 @@ tail = pygame.image.load('tail.png')
 clock = pygame.time.Clock()
 
 block_size= 25
-FPS =10
+FPS =8
 direction =  "right"
 smallfont = pygame.font.SysFont("comicsansms", 20)
 medfont = pygame.font.SysFont("comicsansms", 50)
@@ -147,8 +147,8 @@ def gameLoop():
     
     
 
-    lead_x = display_width/2
-    lead_y = display_height/2
+    lead_x = display_width/2 
+    lead_y = display_height/2 
 
  
     
@@ -156,8 +156,27 @@ def gameLoop():
     lead_x_change = block_size
     lead_y_change = 0
 
-    randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
-    randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
+    applelocationx = []
+    xapple = 25
+    while xapple<= display_width - 25:
+        applelocationx.append(xapple)
+        xapple=xapple+25
+
+    applelocationy = []
+    yapple = 25
+    while yapple<= display_height - 25:
+        applelocationy.append(yapple)
+        yapple=yapple+25
+       
+   
+        
+   
+
+    #randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
+    #randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
+    randAppleX = random.choice(applelocationx)
+    randAppleY = random.choice(applelocationy)
+    
     
     while not gameExit:
         
@@ -209,21 +228,20 @@ def gameLoop():
         lead_y +=  lead_y_change
         gameDisplay.fill(white)
         
-        AppleThickness =20
+        AppleThickness =25
  
         #pygame.draw.rect(gameDisplay, red, [randAppleX,randAppleY,AppleThickness,AppleThickness])
         gameDisplay.blit(appleimage, (randAppleX,randAppleY))
         snakeHead=[]
-        #snakeTail = []
+        
     
         snakeHead.append(lead_x)
         snakeHead.append(lead_y)
-        #snakeTail.append(lead_x - block_size)
-        #snakeTail.append(lead_y - block_size)
         
-        #snakeList.append(snakeTail)
+        
+        
         snakeList.append(snakeHead)
-        print (len(snakeList))
+        
        
       
         
@@ -243,12 +261,14 @@ def gameLoop():
         score(snakeLenght - 2)
         pygame.display.update()
 
-        if lead_x>=randAppleX-AppleThickness and lead_x<=randAppleX+ AppleThickness:
-            if lead_y>=randAppleY - AppleThickness and lead_y<=randAppleY+AppleThickness:
-               randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
-               randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
+        if lead_x>randAppleX-AppleThickness and lead_x<randAppleX+ AppleThickness:
+            if lead_y>randAppleY - AppleThickness and lead_y<randAppleY+AppleThickness:
+               randAppleX=random.choice(applelocationx)
+               randAppleY=random.choice(applelocationy)
+               print (randAppleX)
+               print (randAppleY)
                snakeLenght += 1
-               
+      
         
         clock.tick(FPS)
 
