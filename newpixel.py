@@ -103,7 +103,25 @@ def snake(block_size, snakelist):
     
 
   
-    
+def pause ():
+    paused = True
+    message_to_screen("paused", black , -100, size = "large")
+    message_to_screen ("Press C to continue or Q to quit", black, 25)
+    pygame.display.update()
+
+
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    paused = False
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+        
     
 def start_menu():
     intro =True
@@ -132,7 +150,8 @@ def start_menu():
         message_to_screen("When the snake eats food its tail becomes longer." , black, 30, "small")
         message_to_screen("Food appears in random places.", black, 50, "small")
         message_to_screen("The game is over when the snake bites itself." ,black, 70, "small"  )
-        message_to_screen("Press C to play or Q to quit", black, 150,"small")
+        message_to_screen("Press C to play, P to pause or Q to quit", black, 150,"small")
+        
         pygame.display.update()
         clock.tick(10)
 
@@ -169,9 +188,6 @@ def gameLoop():
         yapple=yapple+25
        
    
-        
-   
-
     #randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
     #randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
     randAppleX = random.choice(applelocationx)
@@ -179,13 +195,13 @@ def gameLoop():
     
     
     while not gameExit:
-        
-        while gameOver == True:
-            gameDisplay.fill(white)
+        if gameOver == True:
+            applelocationx.clear()
             message_to_screen("The game is over",red, -100, size ="large")
             message_to_screen("Press C to play again or Q to quit",black, 50, size = "small")
             pygame.display.update()
-
+        while gameOver == True:
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     gameExit==True
@@ -221,6 +237,9 @@ def gameLoop():
                     direction = "down"
                     lead_y_change = block_size
                     lead_x_change = 0
+
+                elif event.key == pygame.K_p:
+                    pause()
         if lead_x>=display_width or lead_x<0 or lead_y>=display_height or lead_y<0:
            gameOver = True
                 
