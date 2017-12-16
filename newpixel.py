@@ -66,19 +66,19 @@ def snake(block_size, snakelist):
     
     gameDisplay.blit(head, (snakelist [-1] [0], snakelist [-1][1]))
 
-
+    #if snakelist[1] == snakelist[0]: (include indent) 
     if direction =="right":
-        part = pygame.transform.rotate(segment, 270)
+                
+            part = pygame.transform.rotate(segment, 270)
 
     if direction =="left":
-        part = pygame.transform.rotate(segment, 90)
-    
+            part = pygame.transform.rotate(segment, 90)
+            
     if direction =="up":
-        part = segment
+            part = segment
 
     if direction =="down":
-        part = pygame.transform.rotate(segment, 180)
-
+            part = pygame.transform.rotate(segment, 180)
 
 
     if direction =="right":
@@ -96,6 +96,8 @@ def snake(block_size, snakelist):
       
     for XnY in snakelist[1:-1]:
         gameDisplay.blit(part, (XnY[0],XnY[1]))
+
+    print(snakelist)
         
    
     gameDisplay.blit(endofsnake, (snakelist [0] [0], snakelist [0][1]))
@@ -160,9 +162,12 @@ def gameLoop():
     global direction
     gameExit = False
     gameOver = False
+    
 
     snakeList =[]
-    snakeLenght=2
+    
+    snakeLenght = 3
+   
     
     
 
@@ -174,7 +179,8 @@ def gameLoop():
     
     lead_x_change = block_size
     lead_y_change = 0
-
+    
+    
     applelocationx = []
     xapple = 25
     while xapple<= display_width - 25:
@@ -186,6 +192,9 @@ def gameLoop():
     while yapple<= display_height - 25:
         applelocationy.append(yapple)
         yapple=yapple+25
+
+    
+        
        
    
     #randAppleX=round (random.randrange(0,display_width-block_size)/10.0)*10.0
@@ -196,9 +205,10 @@ def gameLoop():
     
     while not gameExit:
         if gameOver == True:
-            applelocationx.clear()
+            
             message_to_screen("The game is over",red, -100, size ="large")
             message_to_screen("Press C to play again or Q to quit",black, 50, size = "small")
+            
             pygame.display.update()
         while gameOver == True:
             
@@ -256,16 +266,10 @@ def gameLoop():
     
         snakeHead.append(lead_x)
         snakeHead.append(lead_y)
-        
-        
-        
         snakeList.append(snakeHead)
+        print (snakeList)
         
        
-      
-        
-        
-        
         if len(snakeList) > snakeLenght:
             del snakeList[0]
 
@@ -274,7 +278,8 @@ def gameLoop():
                 gameOver=True
              
         
-
+        #print (lead_x)
+        #print (lead_y)
         
         snake(block_size,snakeList)
         score(snakeLenght - 2)
@@ -284,9 +289,10 @@ def gameLoop():
             if lead_y>randAppleY - AppleThickness and lead_y<randAppleY+AppleThickness:
                randAppleX=random.choice(applelocationx)
                randAppleY=random.choice(applelocationy)
-               print (randAppleX)
-               print (randAppleY)
+               
                snakeLenght += 1
+        print (snakeLenght)
+               
       
         
         clock.tick(FPS)
