@@ -1,3 +1,4 @@
+
 import pygame
 import random
 
@@ -17,6 +18,7 @@ snakeheadimage=pygame.image.load('snakehead.png')
 appleimage=pygame.image.load('apple2.png')
 segment = pygame.image.load('segment.png')
 tail = pygame.image.load('tail.png')
+turn = pygame.image.load('kolanko.png')
 
 clock = pygame.time.Clock()
 
@@ -65,6 +67,7 @@ def snake(block_size, snakelist):
     
     
     gameDisplay.blit(head, (snakelist [-1] [0], snakelist [-1][1]))
+    
 
     #if snakelist[1] == snakelist[0]: (include indent) 
     if direction =="right":
@@ -97,10 +100,11 @@ def snake(block_size, snakelist):
     for XnY in snakelist[1:-1]:
         gameDisplay.blit(part, (XnY[0],XnY[1]))
 
-    print(snakelist)
+    
         
    
     gameDisplay.blit(endofsnake, (snakelist [0] [0], snakelist [0][1]))
+    print(snakelist)
     #pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
     
 
@@ -163,10 +167,11 @@ def gameLoop():
     gameExit = False
     gameOver = False
     
-
-    snakeList =[]
     
-    snakeLenght = 3
+
+    snakeList =[[display_width/2,display_height/2 ]]
+    
+    snakeLenght = 2
    
     
     
@@ -201,6 +206,7 @@ def gameLoop():
     #randAppleY=round (random.randrange(0,display_height-block_size)/10.0)*10.0
     randAppleX = random.choice(applelocationx)
     randAppleY = random.choice(applelocationy)
+    
     
     
     while not gameExit:
@@ -272,6 +278,7 @@ def gameLoop():
        
         if len(snakeList) > snakeLenght:
             del snakeList[0]
+        
 
         for eachSegment in snakeList [:-1]:
             if eachSegment == snakeHead:
@@ -284,6 +291,8 @@ def gameLoop():
         snake(block_size,snakeList)
         score(snakeLenght - 2)
         pygame.display.update()
+
+        
 
         if lead_x>randAppleX-AppleThickness and lead_x<randAppleX+ AppleThickness:
             if lead_y>randAppleY - AppleThickness and lead_y<randAppleY+AppleThickness:
@@ -302,3 +311,4 @@ def gameLoop():
     quit()
 start_menu()
 gameLoop()
+
