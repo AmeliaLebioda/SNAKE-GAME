@@ -14,16 +14,21 @@ display_height = 600
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Slither')
-snakeheadimage=pygame.image.load('snakehead.png')
-appleimage=pygame.image.load('apple2.png')
-segment = pygame.image.load('segment.png')
-tail = pygame.image.load('tail.png')
-turn = pygame.image.load('kolanko.png')
+bb=pygame.image.load('purple.png')
+cc = pygame.image.load('blue.png')
+aa = pygame.image.load('green.png')
+ee = pygame.image.load('violet.png')
+dd = pygame.image.load('red.png')
+
+
+listofsegment = [aa,bb,cc,dd,ee]
+
 
 clock = pygame.time.Clock()
 
-block_size= 25
 FPS =8
+    
+
 direction =  "right"
 smallfont = pygame.font.SysFont("comicsansms", 20)
 medfont = pygame.font.SysFont("comicsansms", 50)
@@ -51,62 +56,34 @@ def message_to_screen(msg,color, y_displace=0, size = "small"):
 
 def snake(block_size, snakelist):
     
-    
-    
     if direction =="right":
-        head = pygame.transform.rotate(snakeheadimage, 270)
+        head = aa
 
     if direction =="left":
-        head = pygame.transform.rotate(snakeheadimage, 90)
+        head = aa
     
     if direction =="up":
-        head = snakeheadimage
+        head = aa
 
     if direction =="down":
-        head = pygame.transform.rotate(snakeheadimage, 180)
-    
-    
+        head = aa
     gameDisplay.blit(head, (snakelist [-1] [0], snakelist [-1][1]))
-    
-
-    #if snakelist[1] == snakelist[0]: (include indent) 
-    if direction =="right":
-                
-            part = pygame.transform.rotate(segment, 270)
-
-    if direction =="left":
-            part = pygame.transform.rotate(segment, 90)
-            
-    if direction =="up":
-            part = segment
-
-    if direction =="down":
-            part = pygame.transform.rotate(segment, 180)
+    gameDisplay.blit(head, (snakelist [0] [0], snakelist [0][1]))
 
 
-    if direction =="right":
-        endofsnake= pygame.transform.rotate(tail, 270)
 
-    if direction =="left":
-        endofsnake = pygame.transform.rotate(tail, 90)
-    
-    if direction =="up":
-        endofsnake = tail
-
-    if direction =="down":
-        endofsnake= pygame.transform.rotate(tail, 180)
-    
-      
+    k=1
     for XnY in snakelist[1:-1]:
-        gameDisplay.blit(part, (XnY[0],XnY[1]))
-
-    
         
-   
-    gameDisplay.blit(endofsnake, (snakelist [0] [0], snakelist [0][1]))
-    print(snakelist)
-    #pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
+        
+        party = listofsegment [k]
+        gameDisplay.blit(party, (XnY[0],XnY[1]))
+        k=k+1
+        if k == 5:
+            k=0
+        print (k)
     
+   
 
   
 def pause ():
@@ -146,9 +123,6 @@ def start_menu():
                 if event.key == pygame.K_c:
                     intro = False
 
-        
-
-    
         gameDisplay.fill(white)
         message_to_screen("Welcome to Slither" , red, -100,"large")
         message_to_screen("The rules and functionalities are:", black, -20, "small" )
@@ -164,6 +138,8 @@ def start_menu():
          
 def gameLoop():
     global direction
+    k=3
+    
     gameExit = False
     gameOver = False
     
@@ -172,7 +148,14 @@ def gameLoop():
     snakeList =[[display_width/2,display_height/2 ]]
     
     snakeLenght = 2
-   
+
+    block_size= 25
+    #if snakeLenght <5:
+     #   FPS =20
+    #else:
+        #FPS =20
+        
+       
     
     
 
@@ -264,8 +247,18 @@ def gameLoop():
         gameDisplay.fill(white)
         
         AppleThickness =25
+        #appleimage=random.choice(listofsegment)
+        #appleimage=ee
+        #if snakeLenght == 2:
+         #   appleimage= bb
+        #else:
+         #   appleimage==random.choice(listofsegment)
+
+        
  
         #pygame.draw.rect(gameDisplay, red, [randAppleX,randAppleY,AppleThickness,AppleThickness])
+        if snakeLenght == 2:
+            appleimage= bb
         gameDisplay.blit(appleimage, (randAppleX,randAppleY))
         snakeHead=[]
         
@@ -288,9 +281,14 @@ def gameLoop():
         #print (lead_x)
         #print (lead_y)
         
-        snake(block_size,snakeList)
+        
         score(snakeLenght - 2)
+        snake(block_size,snakeList)
         pygame.display.update()
+        
+        
+
+        
 
         
 
@@ -300,7 +298,23 @@ def gameLoop():
                randAppleY=random.choice(applelocationy)
                
                snakeLenght += 1
+               k=2
+               for appleimage in snakeList[:-1]:
+                   appleimage = listofsegment [k]
+                   
+                   k=k+1
+                   if k == 5:
+                       k=0
+        
+
+
+
+     
+               
+               
         print (snakeLenght)
+        
+        
                
       
         
