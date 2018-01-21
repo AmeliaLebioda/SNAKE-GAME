@@ -132,11 +132,7 @@ def gameLoop():
     snakeLenght = 2
 
     block_size=25
-    #if snakeLenght < 5:
-     #   FPS = 2
-    #else:
-     #   FPS = 20
-        
+       
     lead_x = display_width/2 
     lead_y = display_height/2 
     lead_x_change = block_size
